@@ -37,13 +37,13 @@ flowchart TD
 
 ## 📦 Módulos do Repositório
 
-| Repositório | Stack Principal | Descrição |
-| --- | --- | --- |
-| [oma-plugin](https://www.google.com/search?q=https://github.com/oma-ecosystem/oma-plugin) | Java 17, PaperMC, Maven | Geração paramétrica/erosão, escalonamento de party, testes de perícia d20 e itens soulbound. |
-| [oma-backend](https://www.google.com/search?q=https://github.com/oma-ecosystem/oma-backend) | Node.js, TypeScript, PostgreSQL | API em Domain-Driven Design, validação estrita via Zod, WebSockets e bridge com IA local. |
-| [oma-frontend](https://www.google.com/search?q=https://github.com/oma-ecosystem/oma-frontend) | Angular, SCSS, RxJS | Painel administrativo com Canvas de nós interativo (Pan/Zoom), gestão de campanhas e BI. |
-| [oma-website](https://www.google.com/search?q=https://github.com/oma-ecosystem/oma-website) | Angular, Responsive UI | Landing page institucional exibindo status e métricas em tempo real direto do banco. |
-| [oma-docs](https://www.google.com/search?q=https://github.com/oma-ecosystem/oma-docs) | Docusaurus, Swagger OpenAPI | Portal técnico detalhado de arquitetura, contratos de API e guias operacionais. |
+| Repositório                                                   | Stack Principal                 | Descrição                                                                                    |
+| ------------------------------------------------------------- | ------------------------------- | -------------------------------------------------------------------------------------------- |
+| [oma-plugin](https://github.com/oma-ecosystem/oma-plugin)     | Java 17, PaperMC, Maven         | Geração paramétrica/erosão, escalonamento de party, testes de perícia d20 e itens soulbound. |
+| [oma-backend](https://github.com/oma-ecosystem/oma-backend)   | Node.js, TypeScript, PostgreSQL | API em Domain-Driven Design, validação estrita via Zod, WebSockets e bridge com IA local.    |
+| [oma-frontend](https://github.com/oma-ecosystem/oma-frontend) | Angular, SCSS, RxJS             | Painel administrativo com Canvas de nós interativo (Pan/Zoom), gestão de campanhas e BI.     |
+| [oma-website](https://github.com/oma-ecosystem/oma-website)   | Angular, Responsive UI          | Landing page institucional exibindo status e métricas em tempo real direto do banco.         |
+| [oma-docs](https://github.com/oma-ecosystem/oma-docs)         | Docusaurus, Swagger OpenAPI     | Portal técnico detalhado de arquitetura, contratos de API e guias operacionais.              |
 
 ---
 
@@ -60,9 +60,9 @@ flowchart TD
 
 ```bash
 # Clone o workspace completo ou use o docker-compose raiz
-git clone [https://github.com/oma-ecosystem/oma-backend.git](https://github.com/oma-ecosystem/oma-backend.git)
-git clone [https://github.com/oma-ecosystem/oma-frontend.git](https://github.com/oma-ecosystem/oma-frontend.git)
-git clone [https://github.com/oma-ecosystem/oma-website.git](https://github.com/oma-ecosystem/oma-website.git)
+git clone https://github.com/oma-ecosystem/oma-backend.git
+git clone https://github.com/oma-ecosystem/oma-frontend.git
+git clone https://github.com/oma-ecosystem/oma-website.git
 
 # Suba a infraestrutura conteinerizada
 docker compose up -d --build
