@@ -1,111 +1,143 @@
-# 🧙♂️ Orquestrador de Masmorras Autônomo (O.M.A. Ecosystem)
+<div align="center">
 
-> **Autonomous Dungeon Master & Procedural Engine for Minecraft**  
-> Ecossistema distribuído de grau de produção que combina Modelos de Linguagem Locais (LLM via Ollama), orquestração de microsserviços em Node.js/TypeORM, interfaces administrativas em Angular 19 (Zoneless) e renderização física de instâncias em RAM no PaperMC/Velocity.
+<h1>⚔️ O.M.A. — Orquestrador de Masmorras Automatizado</h1>
+
+### Um ecossistema MMORPG para Minecraft, inspirado em Manhwa e Solo Leveling.
+
+**Mundos vivos. Progressão própria. Histórias que reagem às escolhas dos jogadores.**
+
+![Organização OMA-Ecosystem](https://img.shields.io/badge/OMA--Ecosystem-Open%20Source-17A673?logo=github&logoColor=white)
+![Java 25](https://img.shields.io/badge/Java-25-ED8B00?logo=openjdk&logoColor=white)
+![PaperMC 26.2](https://img.shields.io/badge/PaperMC-26.2-5CA4D6)
+![Node.js](https://img.shields.io/badge/Node.js-API-339933?logo=nodedotjs&logoColor=white)
+![Go](https://img.shields.io/badge/Go-TUI-00ADD8?logo=go&logoColor=white)
+
+</div>
 
 ---
 
-## 🏗️ Arquitetura do Ecossistema
+## 🌌 A Visão
 
-O OMA não é apenas um plugin, é uma rede de microsserviços e módulos Java interconectados, desenhada com princípios de **Domain-Driven Design (DDD)**, transações **ACID** para economia e **Separação de Responsabilidades (SRP)**.
+O O.M.A. transforma Minecraft em uma jornada de RPG persistente: a progressão de atributos e habilidades é desacoplada do XP vanilla, enquanto masmorras procedurais escalam dos Tiers **F a S** e podem existir como instâncias isoladas em memória. No centro da aventura está uma narrativa impulsionada por IA local — **Llama 3 via Ollama** — conectada ao **Códice**, onde missões, escolhas e contexto do mundo podem evoluir junto com cada grupo. O resultado é uma plataforma modular para construir experiências de MMORPG emergentes, não apenas uma coleção de plugins.
+
+## 🧭 Arquitetura e Tech Stack
+
+Tecnologias organizadas por camada. Cada serviço usa somente o subconjunto de que precisa.
+
+### 🏗️ Infra & Dados
+
+![Docker](https://img.shields.io/badge/Docker-Container-2496ED?logo=docker&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Relacional-4169E1?logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-Pub%2FSub%20%26%20Cache-DC382D?logo=redis&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-Local%20%2F%20Opcional-003B57?logo=sqlite&logoColor=white)
+
+### 🔌 Backend & API
+
+![Node.js](https://img.shields.io/badge/Node.js-Runtime-339933?logo=nodedotjs&logoColor=white)
+![NestJS](https://img.shields.io/badge/NestJS-Ecossistema-E0234E?logo=nestjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-API-000000?logo=express&logoColor=white)
+
+### 🖥️ Frontend & TUI
+
+![Angular](https://img.shields.io/badge/Angular-Dashboard-DD0031?logo=angular&logoColor=white)
+![Go](https://img.shields.io/badge/Go-Terminal%20UI-00ADD8?logo=go&logoColor=white)
+
+### 🎮 Game Server
+
+![Java 25](https://img.shields.io/badge/Java-25-ED8B00?logo=openjdk&logoColor=white)
+![PaperMC](https://img.shields.io/badge/PaperMC-26.2-5CA4D6)
+![Velocity](https://img.shields.io/badge/Velocity-Proxy-5B3CC4?logo=velocity&logoColor=white)
+
+> **Precisão da stack:** o `oma-backend` atual usa Node.js, Express, TypeORM, PostgreSQL e Redis. NestJS e SQLite aparecem como opções do ecossistema, não como dependências obrigatórias dos serviços atuais.
 
 ```mermaid
-flowchart TD
-    subgraph Proxy ["Infraestrutura de Rede"]
-        Velocity["Velocity Proxy (Lobby & Roteamento)"]
-    end
-
-    subgraph Minecraft ["Servidores PaperMC (Java 25)"]
-        Overworld["Overworld Server\n(oma-structures, oma-claims)"]
-        Instances["Mundos em RAM\n(oma-instances, ASWM)"]
-        RPGCore["Core Engine\n(oma-rpg, oma-entities, oma-economy...)"]
-    end
-
-    subgraph Backend ["Orquestração & Inteligência"]
-        API["oma-backend (Node.js / TypeORM)"]
-        DB[("PostgreSQL\n(ACID)")]
-        Redis[("Redis\n(Cache/PubSub)")]
-        AI["Ollama (LLM Local / Llama 3)"]
-    end
-
-    subgraph Frontend ["Ecossistema Web (Angular 19)"]
-        Admin["oma-frontend (Flow Editor, Códice)"]
-        WebPage["oma-website & player-portal"]
-    end
-
-    Velocity --> Overworld
-    Velocity --> Instances
-    Overworld & Instances <--> RPGCore
-    RPGCore <-->|"HTTP Assíncrono / WebSockets"| API
-    API <--> DB
-    API <--> Redis
-    API <--> AI
-    Admin & WebPage <-->|"REST API & WebSockets"| API
+flowchart LR
+    Players[Jogadores] --> Proxy[Velocity]
+    Proxy --> Paper[PaperMC · Java 25]
+    Paper --> RPG[Domínios RPG e Economia]
+    RPG <--> API[oma-backend · Node.js / Express]
+    API <--> PG[(PostgreSQL)]
+    API <--> Redis[(Redis · Pub/Sub)]
+    API <--> AI[Llama 3 · Ollama]
+    API <--> Web[Angular · Códice e ferramentas DM]
+    Redis <--> TUI[oma-tui-monitor · Go]
 ```
 
----
+## 🗺️ Mapa do Ecossistema
 
-## 📦 Repositórios e Módulos
+Explore os módulos por domínio. Cada nome leva ao repositório correspondente na organização.
 
-Nossos repositórios são divididos por pilares de responsabilidade, garantindo que o desenvolvimento e a manutenção sejam escaláveis.
+<details open>
+<summary><strong>🧱 Domínio Core & Infraestrutura</strong></summary>
 
-### 🌐 Infraestrutura & Core
-| Repositório | Stack | Descrição |
-| :--- | :--- | :--- |
-| **`oma-infra`** | Docker, Shell | Orquestração central: `docker-compose`, variáveis de ambiente e deploy de banco/redis. |
-| **`oma-backend`** | Node.js, TypeORM | API central. Valida transações financeiras, pareia websockets e faz a ponte estruturada com a IA. |
-| **`oma-proxy`** | Velocity | Gestor de tráfego de rede para transitar jogadores entre o mundo aberto e as instâncias fluidamente. |
+| Repositório | Papel |
+|---|---|
+| [oma-core](https://github.com/OMA-Ecosystem/oma-core) | APIs e utilitários compartilhados pelos plugins Java. |
+| [oma-plugin](https://github.com/OMA-Ecosystem/oma-plugin) | Integrações e funcionalidades centrais do servidor Minecraft. |
+| [oma-infra](https://github.com/OMA-Ecosystem/oma-infra) | Orquestração local de serviços e dependências com Docker Compose. |
+| [oma-server](https://github.com/OMA-Ecosystem/oma-server) | Ambiente e operação do servidor Paper. |
+| [oma-proxy](https://github.com/OMA-Ecosystem/oma-proxy) | Proxy Velocity e roteamento de jogadores. |
+| [oma-backup](https://github.com/OMA-Ecosystem/oma-backup) | Backups agendados de mundos e arquivos do servidor. |
+| [oma-maintenance](https://github.com/OMA-Ecosystem/oma-maintenance) | Soft-shutdown e janela segura de manutenção. |
+| [oma-diagnostics](https://github.com/OMA-Ecosystem/oma-diagnostics) | Saúde do servidor, TPS, heap e resposta a condições críticas. |
+| [oma-telemetry](https://github.com/OMA-Ecosystem/oma-telemetry) | Coleta e publicação de métricas operacionais. |
+| [oma-tui-monitor](https://github.com/OMA-Ecosystem/oma-tui-monitor) | Monitor terminal dos eventos Redis do ecossistema. |
 
-### ⚔️ Motor do RPG (Core Gameplay)
-| Repositório | Stack | Descrição |
-| :--- | :--- | :--- |
-| **`oma-instances`** | Java, ASWM | Motor de instanciamento. Carrega mapas `.slime` na memória RAM sob demanda e os destrói pós-uso. |
-| **`oma-rpg`** | Java, Paper API | Cálculo de atributos (Status), motor de loot via NBT Tags e renderização matemática de feitiços (Partículas). |
-| **`oma-entities`** | Java, Pathfinders | Substitui a IA Vanilla do Minecraft por comportamentos lógicos de combate tático (Bestiário Customizado). |
-| **`oma-structures`** | Java, FAWE | Populador assíncrono de Chunks. Injeta construções predefinidas no mundo aberto sem lag de CPU. |
-| **`oma-quests`** | Java, Llama 3 | Motor de missões com "Sincronia Inteligente" e "Modo Mercenário", gerando jornadas únicas com LLM. |
-| **`oma-npcs`** | Java, TextDisplays | Interface narrativa in-game. Menus de diálogo visuais sincronizados em tempo real com o Códice. |
+</details>
 
-### 🤝 Economia & Sistemas Sociais
-| Repositório | Stack | Descrição |
-| :--- | :--- | :--- |
-| **`oma-economy`** | Java, Vault | Banco Central do jogo. Sistema blindado contra duplicação de saldo usando locks pessimistas do PostgreSQL. |
-| **`oma-marketplace`** | Java, Base64 | Casa de leilões cruzada (Web/Game) com taxa de queima (Gold Sink) e sistema de Caixa de Correio virtual. |
-| **`oma-parties`** | Java, Redis | Gestão de grupos, sincronia de missões e HUDs. |
-| **`oma-guilds`** | Java | Sistema político, campanhas coletivas e tesouraria. |
-| **`oma-claims`** | Java | Proteção paramétrica de territórios amarrada às guildas. |
-| **`oma-bounties`** | Java | PvP orientado a recompensas com sistema Escrow (dinheiro retido no backend). |
+<details open>
+<summary><strong>💰 Domínio de Economia & Comunidade</strong></summary>
 
-### 💻 Aplicações Web & Observabilidade
-| Repositório | Stack | Descrição |
-| :--- | :--- | :--- |
-| **`oma-frontend`** | Angular 19 Zoneless | Painel administrativo (DM Tools) com Canvas de Nós, editor de Bestiário, Códice e métricas gráficas. |
-| **`oma-telemetry`** | Java / WebSockets | Observabilidade em tempo real (TPS, RAM, Entidades) streamada direto para o dashboard do frontend. |
-| **`oma-discord-link`**| Node.js / Java | Autenticação via OAuth, sincronia de cargos do LuckPerms e chat bidirecional em tempo real. |
+| Repositório | Papel |
+|---|---|
+| [oma-economy](https://github.com/OMA-Ecosystem/oma-economy) | Saldos, transações e economia do jogo. |
+| [oma-marketplace](https://github.com/OMA-Ecosystem/oma-marketplace) | Leilões e caixa de correio entre jogadores. |
+| [oma-bounties](https://github.com/OMA-Ecosystem/oma-bounties) | Recompensas e contratos entre jogadores. |
+| [oma-guilds](https://github.com/OMA-Ecosystem/oma-guilds) | Guildas, territórios e sistemas coletivos. |
+| [oma-parties](https://github.com/OMA-Ecosystem/oma-parties) | Grupos, coordenação e atividades cooperativas. |
+| [oma-claims](https://github.com/OMA-Ecosystem/oma-claims) | Proteção de territórios e reivindicações. |
+| [oma-leaderboards](https://github.com/OMA-Ecosystem/oma-leaderboards) | Rankings e placares de progresso. |
 
----
+</details>
 
-## ⚙️ Destaques Técnicos da Arquitetura
+<details open>
+<summary><strong>⚔️ Domínio de RPG & Instâncias</strong></summary>
 
-* **Economia ACID (Anti-Dupe):** A arquitetura cruza o inventário do Minecraft com transações rígidas no banco de dados, prevenindo qualquer duplicação de itens ou moedas em casos de queda de servidor.
-* **Cérebro Instanciado (RAM vs Disco):** Divisão arquitetural severa: a IA de monstros (`oma-entities`) roda na CPU, enquanto a geração de mapas (`oma-structures`) usa fluxos assíncronos de Disco, e as masmorras rodam unicamente na memória RAM volátil.
-* **Integração LLM Paramétrica:** A Inteligência Artificial local (Ollama) não apenas gera textos, mas cospe regras em JSON calculando vetores matemáticos para desenhar magias (partículas) in-game.
-* **Narrativa Híbrida (Modo Mercenário):** Resolução do "Dilema de Skyrim no Multijogador", sincronizando o progresso de missões de uma Party no banco de dados e congelando histórias individuais conflitantes.
+| Repositório | Papel |
+|---|---|
+| [oma-rpg](https://github.com/OMA-Ecosystem/oma-rpg) | Atributos, habilidades e combate RPG. |
+| [oma-quests](https://github.com/OMA-Ecosystem/oma-quests) | Missões e narrativa assistida por IA. |
+| [oma-instances](https://github.com/OMA-Ecosystem/oma-instances) | Mundos de masmorra instanciados sob demanda. |
+| [oma-structures](https://github.com/OMA-Ecosystem/oma-structures) | Estruturas e conteúdo procedural do mundo. |
+| [oma-entities](https://github.com/OMA-Ecosystem/oma-entities) | Criaturas e comportamentos de combate customizados. |
+| [oma-npcs](https://github.com/OMA-Ecosystem/oma-npcs) | NPCs, diálogos e pontos de interação. |
+| [oma-assets](https://github.com/OMA-Ecosystem/oma-assets) | Resource Pack e áudio contextual do jogo. |
+| [oma-announcer](https://github.com/OMA-Ecosystem/oma-announcer) | Anúncios, boas-vindas e comunicação in-game. |
 
----
+</details>
 
-## 🚀 Inicialização Rápida do Ecossistema
+<details open>
+<summary><strong>🌐 Aplicações Web, Integrações & Documentação</strong></summary>
 
-Para provisionar o ambiente local de desenvolvimento, utilize nossa esteira automatizada:
+| Repositório | Papel |
+|---|---|
+| [oma-backend](https://github.com/OMA-Ecosystem/oma-backend) | API, persistência e integração com serviços do OMA. |
+| [oma-frontend](https://github.com/OMA-Ecosystem/oma-frontend) | Ferramentas administrativas e Códice em Angular. |
+| [oma-player-portal](https://github.com/OMA-Ecosystem/oma-player-portal) | Experiência web voltada a jogadores. |
+| [oma-website](https://github.com/OMA-Ecosystem/oma-website) | Site público do projeto. |
+| [oma-discord-link](https://github.com/OMA-Ecosystem/oma-discord-link) | Integração de contas, cargos e chat com Discord. |
+| [oma-bot](https://github.com/OMA-Ecosystem/oma-bot) | Bot e automações da comunidade Discord. |
+| [oma-docs](https://github.com/OMA-Ecosystem/oma-docs) | Documentação técnica e referências da plataforma. |
 
-```bash
-# 1. Clone a orquestração central
-git clone https://github.com/oma-ecosystem/oma-infra.git
-cd oma-infra
+</details>
 
-# 2. Copie os contratos de ambiente
-cp .env.example .env
+## 🤝 Contribua
 
-# 3. Suba o ecossistema (PostgreSQL, Redis, Backend, Ollama, Frontends)
-docker compose up -d --build
-```
+O O.M.A. é construído em módulos para que cada domínio possa evoluir com contratos claros e colaboração aberta. Comece explorando o repositório mais próximo da sua área, leia o README local e abra uma issue para discutir mudanças maiores antes de enviar um pull request.
+
+- **Desenvolvimento de plugins:** Java 25, PaperMC 26.2 e Gradle.
+- **Serviços e APIs:** Node.js, TypeScript, Express, PostgreSQL e Redis.
+- **Interfaces e ferramentas:** Angular e Go.
+- **Narrativa e conteúdo:** missões, Códice, NPCs, criaturas e masmorras.
+
+> A licença e as diretrizes de contribuição devem ser consultadas em cada repositório; não há uma licença única declarada para toda a organização neste workspace.
